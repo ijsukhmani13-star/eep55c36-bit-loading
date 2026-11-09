@@ -1,0 +1,31 @@
+# Python environments and caches
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+
+# LaTeX build by-products (the final PDF is kept)
+report/*.aux
+report/*.log
+report/*.out
+report/*.toc
+report/*.fls
+report/*.fdb_latexmk
+report/*.synctex.gz
+
+# Full-run raw timing scratch (small summary CSVs are committed)
+results/scratch/
+
+# OS / editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Never commit secrets or paper PDFs
+.env
+*.key
+papers/
