@@ -21,3 +21,19 @@ Short record of decisions, problems and next steps, newest entries at the bottom
   Secondary: exact allocation agreement, total bits, energy used, budget violation.
 
 Next steps: data generator, baseline, checks.
+
+## 2. Baseline implemented and verified
+
+- `src/baseline.py` implements the scan version exactly as described in the guide
+  (`np.where` to mask capped tones, `np.argmin` so the first index wins ties).
+- Checks in `tests/` (run with `python -m pytest`): hand-computed examples, zero budget,
+  zero cap, saturation, empty input, invalid inputs, exhaustive search on 40 random tiny
+  cases, feasibility/shape/finiteness, monotonicity in budget and in g, and no input mutation.
+- **Discrepancy found in the guide's sanity check.** The guide says g=[1,1], Gamma=1,
+  E=3 gives [2,1] "using energy 3". Under the stated model e(b)=(Gamma/g)(2^b-1),
+  [2,1] needs 3+1 = 4 > 3, so it is infeasible. Both the greedy rule and exhaustive search
+  give [1,1] (energy 2) at E=3, and [2,1] (energy 4) at E=4. Both cases are tested.
+- My own first hand calculation for g=[1,4] was also wrong (I forgot the tie at cost 1);
+  the failing test caught it, and I corrected the *expectation*, after re-deriving it by hand.
+
+Baseline is tagged `baseline-verified` before any change is introduced.
