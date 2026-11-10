@@ -1,7 +1,7 @@
 # Interview notes (5 minutes)
 
-Backup if the live demo fails: `results/final/fig2_main_comparison.png`, `fig4_stress_budget.png` and
-`summary.csv` are committed at tag `v1.0-submission`.
+Backup if the live demo fails: `results/final/fig2_main_comparison.png`, `fig4_stress_budget.png`,
+`summary.csv` and the terminal screenshots in `docs/screenshots/` are committed at tag `v1.0-submission`.
 
 ## 1. Two-minute explanation (with Fig. 2)
 
@@ -13,10 +13,11 @@ Backup if the live demo fails: `results/final/fig2_main_comparison.png`, `fig4_s
 3. **My change.** Only the selection step changes: a min-heap of (cost, index) replaces the full scan. The cost per bit
    drops from O(N) to O(log N), with O(N) setup. The tuple ordering keeps the same tie rule, so the output should be
    identical.
-4. **Finding.** The allocations were identical in all 1186 runs. The heap is about 7× faster at N = 64–1024 and 12× at 4096. It is no faster
-   for tiny budgets (ρ = 0.01: 0.87×), because the heap build is not repaid. The speed-up did **not** grow from 64 to 1024 as I
-   predicted, because NumPy's `argmin` is vectorised and call overhead dominates. The ablation (pure-Python scan versus heap)
-   shows the true data-structure effect: 10×, 30×, 99×.
+4. **Finding.** The allocations were identical in all 1186 runs. On my laptop the heap is 13–14× faster at N = 64–1024 and 16.7× at 4096.
+   For tiny budgets (ρ = 0.01) the advantage disappears (1.16×, CI [0.96, 1.40]), because the 0.26 ms heap build is barely repaid by
+   about 34 increments. The speed-up hardly grew from 64 to 1024 (13.3× to 14.0×), unlike what I predicted, because NumPy's
+   `argmin` is vectorised and call overhead dominates. The ablation (pure-Python scan versus heap) shows the true data-structure effect:
+   7×, 25×, 92×.
 
 ## 2. One-minute demo
 
@@ -25,7 +26,7 @@ python -m pytest                                        # 348 passed
 python run_experiments.py --config configs/smoke.json   # ~2 s
 ```
 - Inputs: `configs/smoke.json` (sizes, ρ candidates, Γ = 9.8 dB, bmax = 15, timing repeats).
-- Seeds: validation 100–104, test from 1000 (defined in `src/data.py`).
+- Seeds (smoke config): validation 100–104, test from 1000 (defined in `src/data.py`).
 - Outputs: `results/smoke/` (CSV files and fig1–fig5). The final results are in `results/final/`.
 
 ## 3. Equation → code map
@@ -58,9 +59,9 @@ python run_experiments.py --config configs/smoke.json   # ~2 s
 - **Why a geometric mean?** Speed-ups are ratios, so averaging log ratios is symmetric, and pairing removes channel-to-channel variation.
   Each case is an independent channel, so the cases (not samples or tones) are the units for the CI.
 - **What if I change the noise, size, seed or budget?** The allocation stays identical (it's the same algorithm). Smaller budgets (fewer bits)
-  reduce the speed-up, which is below 1 at ρ = 0.01. Larger N eventually increases it. Noise changes g and hence B, but not agreement.
-- **Least convincing result?** The scaling claim. The speed-up is flat from 64 to 1024, and timing comes from one shared VM. Also, ρ = 0.01 has a CI that
-  includes 1, so I say "no faster", not "slower".
+  reduce the speed-up, to about 1× at ρ = 0.01 (0.87× on the cloud VM, so the sign depends on the machine). Larger N eventually increases it. Noise changes g and hence B, but not agreement.
+- **Least convincing result?** The scaling claim. The speed-up is nearly flat from 64 to 1024, and timing comes from one laptop. Also, ρ = 0.01 has a CI that
+  includes 1, and it was 0.87× on another machine, so I say "no reliable gain", not "faster" or "slower".
 - **Where does the method fail?** With tiny budgets (speed). For both methods, planning on estimated g overspends the true energy (+9% with 20 pilots),
   because noise inflates |ĥ|² and greedy picks the over-estimated tones. That is model validity, not code correctness.
 - **Reproduce a figure from the submitted commit?** `git checkout v1.0-submission`, then

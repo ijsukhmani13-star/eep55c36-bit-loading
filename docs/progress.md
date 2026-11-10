@@ -88,3 +88,20 @@ Baseline is tagged `baseline-verified` before any change is introduced.
   the supporting figures. Rebuild with `cd report && pdflatex report.tex` (run twice).
 - Interview and demo notes: `docs/interview_notes.md`.
 - Next: clean-clone check, then tag `v1.0-submission`.
+
+## 6. Final results re-run on my own laptop
+
+- Re-ran `configs/final.json` on my Windows 11 laptop (Python 3.13) at commit d5419a1, so that the submitted
+  timings come from my machine. Deterministic outputs (rho = 40, bits, agreement, calibration overspend)
+  matched the earlier cloud-VM run exactly. Only the timings changed.
+- Laptop speed-ups are larger: 13.3x / 13.7x / 14.0x for N = 64 / 256 / 1024 and 16.7x at 4096 (cloud VM: about 7x / 12x).
+  Ablation: 7.2x / 24.5x / 91.9x.
+- The tiny-budget stress case changed sign: 1.16x, CI [0.96, 1.40] on the laptop vs 0.87x on the VM. I now report it as
+  "the advantage disappears / no reliable gain" rather than "heap slower".
+- Updated the report table and text, the README environment section and the interview notes to match.
+- With the larger laptop speed-ups, two plotting problems showed up: fig4's y-axis was fixed at 10x and clipped the
+  14x points, and the fig2b value labels overlapped the error bars. I fixed the axis and label placement in `src/figures.py`
+  and redrew the figures with `--figures-only` from the same CSVs. No numbers changed.
+- Added terminal screenshots of the final run (`docs/screenshots/`) as backup evidence for the interview.
+- Final report polish: added an abstract, a side-by-side listing of the baseline and modified selection loops, and a
+  stress-case table (budget sweep and calibration overspend). Main text kept to 3 pages; references and appendix follow.

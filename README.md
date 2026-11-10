@@ -17,9 +17,9 @@ total energy budget. This repository:
 3. **Compares** both methods fairly. It uses paired synthetic test cases at 3 problem sizes and 2 information
    conditions, plus stress cases, an ablation and 95% confidence intervals.
 
-**Main finding.** The allocations are identical in 100% of 1186 runs. The heap is about **7× faster** at
-N = 64–1024 and **12× faster** at N = 4096. It is **not faster for tiny budgets**: at ρ = 0.01 the speed-up is
-0.87×, 95% CI [0.73, 1.03]. The hypothesis "the speed-up grows with N" is only partly supported, because NumPy
+**Main finding.** The allocations are identical in 100% of 1186 runs. The heap is **13–14× faster** at
+N = 64–1024 and **16.7× faster** at N = 4096. The advantage **disappears for tiny budgets**: at ρ = 0.01 the speed-up is
+1.16×, 95% CI [0.96, 1.40]. The hypothesis "the speed-up grows with N" is only partly supported, because NumPy
 vectorisation hides the O(N) scan cost until N ≈ 1000. Full write-up: [report/report.pdf](report/report.pdf).
 
 Scope and simplifications: only the greedy core with a per-tone cap `bmax` is reproduced. The paper's
@@ -41,14 +41,18 @@ initialisation and acceleration steps are not. All data are **synthetic**, and n
 | Submitted results | [`results/final/`](results/final) (`summary.csv`, `raw_runs.csv`, `validation.csv`, `environment.json`, `fig*.png`) |
 | Report (PDF and LaTeX source) | [`report/report.pdf`](report/report.pdf), [`report/report.tex`](report/report.tex) |
 | Development log | [`docs/progress.md`](docs/progress.md) |
+| Screenshots of the final run (backup evidence) | [`docs/screenshots/`](docs/screenshots) |
 | Interview / demo notes | [`docs/interview_notes.md`](docs/interview_notes.md) |
 
 ## Tested environment
 
-- Ubuntu 24.04 (x86_64), Intel Xeon @ 2.1 GHz, 2 logical CPUs
-- Python 3.13.18; NumPy 2.5.3, matplotlib 3.11.2, pytest 9.1.1 (pinned in `requirements.txt`)
-- No SciPy, pandas or GPU needed. Any Python ≥ 3.10 with these packages should work. Windows and macOS were not
-  tested, but no OS-specific code is used (only `pathlib` paths).
+- **Submitted results:** Windows 11 laptop, Python 3.13, run from the VS Code PowerShell terminal.
+  The exact CPU, OS and versions are recorded in `results/final/environment.json`.
+  Terminal screenshots of that run: [`docs/screenshots/`](docs/screenshots).
+- Also tested on Ubuntu 24.04 (x86_64, 2-vCPU cloud VM, Python 3.13.18). Identical allocations, smaller speed-ups (~7×).
+- NumPy 2.5.3, matplotlib 3.11.2, pytest 9.1.1 (pinned in `requirements.txt`).
+- No SciPy, pandas or GPU needed. Any Python ≥ 3.10 with these packages should work. macOS was not tested, but no
+  OS-specific code is used (only `pathlib` paths).
 
 ## Install, check and run
 
@@ -60,9 +64,9 @@ python -m venv .venv
 source .venv/bin/activate          # Windows PowerShell: .venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
 
-python -m pytest                                          # checks: 348 passed, ~1 s
-python run_experiments.py --config configs/smoke.json     # quick run, ~2-20 s
-python run_experiments.py --config configs/final.json     # full results, ~2 min
+python -m pytest                                          # checks: 348 passed, ~3 s
+python run_experiments.py --config configs/smoke.json     # quick run, ~10 s
+python run_experiments.py --config configs/final.json     # full results, ~3-4 min
 python run_experiments.py --config configs/final.json --figures-only   # redraw figures from saved CSVs
 ```
 
@@ -72,14 +76,14 @@ All commands are run from the repository root. Output folders are created automa
 
 | Command | Time (tested machine) | Output |
 |---|---|---|
-| `python -m pytest` | ~1 s | `348 passed` |
-| smoke run | ~2 s | `results/smoke/` with `validation.csv`, `raw_runs.csv`, `summary.csv`, `environment.json`, `fig1`–`fig5` PNGs. Progress lines end with `finished in … s`. |
-| final run | ~110 s | Same files in `results/final/`. They overwrite the committed results, which you can then compare with `git diff --stat results/final`. |
+| `python -m pytest` | ~3 s | `348 passed` |
+| smoke run | ~10 s | `results/smoke/` with `validation.csv`, `raw_runs.csv`, `summary.csv`, `environment.json`, `fig1`–`fig5` PNGs. Progress lines end with `finished in … s`. |
+| final run | ~3–4 min | Same files in `results/final/`. They overwrite the committed results, which you can then compare with `git diff --stat results/final`. |
 
 **Expected tolerance.** Allocations, bit totals, energies, agreement rates and calibration overspends are deterministic
 and should match exactly (same seeds, same float operations). **Runtimes and speed-ups will differ on another
-machine**, and also between runs on a shared machine. Expect roughly the same picture: about 7× at moderate N, and no gain at
-ρ = 0.01. `raw_runs.csv` will therefore differ only in the timing columns.
+machine**, and also between runs on a shared machine. Expect the same picture: a large, roughly constant speed-up at moderate N (7× on the cloud VM, 14× on my laptop),
+and little or no gain at ρ = 0.01. `raw_runs.csv` will therefore differ only in the timing columns.
 
 ## How data, seeds, parameters and test cases were chosen
 
@@ -103,7 +107,7 @@ machine**, and also between runs on a shared machine. Expect roughly the same pi
 
 - Synthetic channels, the gap approximation, and independent tones (no crosstalk). The greedy optimality proof needs
   separable costs.
-- Timings come from one shared cloud VM. The heap's advantage depends on interpreted-Python versus NumPy overheads, not only on
+- Timings come from one laptop, where background load adds noise. The heap's advantage depends on interpreted-Python versus NumPy overheads, not only on
   asymptotics.
 - Planning on estimated `g` overspends the *true* energy (+8.9% on average with 20 pilots). This is a model and estimation
   issue that both methods share, and it is not a bug.
