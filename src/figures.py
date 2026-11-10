@@ -109,15 +109,15 @@ def fig_main(summary, cfg, out):
                alpha=1.0 if info == "true" else 0.55, hatch=None if info == "true" else "///",
                edgecolor="white", linewidth=0.5, label=f"{info} g")
         a2.errorbar(x, sp, yerr=[sp - lo, hi - sp], fmt="none", ecolor=INK, capsize=3, lw=1)
-        for xi, v in zip(x, sp):
-            a2.text(xi, v + 0.55, f"{v:.1f}×", ha="center", va="bottom", fontsize=7.5,
+        for xi, v, h in zip(x, sp, hi):
+            a2.text(xi, h + 0.03 * max(10, np.nanmax(hi)), f"{v:.1f}×", ha="center", va="bottom", fontsize=7.5,
                     color=INK)
     a2.axhline(1.0, color=MUTED, lw=1, ls="--")
     a2.set_xticks(np.arange(len(tones)), [f"N={n}" for n in tones])
     a2.set_ylabel("speed-up = t_scan / t_heap")
     n_cases = _rows(summary, stage="main", tones=tones[0], info="true")[0]["n_cases"]
     a2.set_title(f"(b) Paired speed-up ± 95% CI ({n_cases} cases/bar)", loc="left")
-    a2.set_ylim(0, max(10, a2.get_ylim()[1] * 1.3))
+    a2.set_ylim(0, max(10, a2.get_ylim()[1] * 1.35))
     a2.legend(loc="upper left", ncol=2)
     a2.grid(axis="x", visible=False)
     fig.tight_layout()
@@ -173,13 +173,14 @@ def fig_budget(summary, out):
     ax.set_yscale("log")
     ax.set_xlabel("energy per tone ρ  (E_max = ρN)")
     ax.set_ylabel("speed-up t_scan / t_heap")
-    ticks = [0.5, 1, 2, 4, 8]
+    top = max(10.0, float(np.nanmax(hi)) * 1.6)        # headroom for labels; never clips data
+    ticks = [t for t in (0.5, 1, 2, 4, 8, 16, 32, 64) if t <= top]
     ax.set_yticks(ticks, [f"{t:g}×" for t in ticks])
     ax.minorticks_off()
-    ax.set_ylim(0.5, 10)
+    ax.set_ylim(min(0.5, float(np.nanmin(lo)) * 0.8), top)
     ax.set_title(f"Stress: budget sweep, N = {r[0]['tones']}, {r[0]['n_cases']} cases per ρ",
                  loc="left")
-    ax.legend(loc="lower right")
+    ax.legend(loc="center right")
     fig.tight_layout()
     fig.savefig(out / "fig4_stress_budget.png")
     plt.close(fig)
