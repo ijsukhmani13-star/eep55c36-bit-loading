@@ -1,0 +1,49 @@
+{
+  "name": "smoke",
+  "description": "Quick installation check that runs every stage on a few cases (about 10-20 s). Not the scientific evaluation.",
+  "model": {
+    "gap_db": 9.8,
+    "bmax": 15,
+    "taps": 8,
+    "noise_var": 0.1,
+    "pilots": 20
+  },
+  "timing": {
+    "warmup": 1,
+    "repeats": 2
+  },
+  "validation": {
+    "tones": 256,
+    "n_seeds": 5,
+    "rho_candidates": [10, 20, 40, 80, 160],
+    "target_bits_per_tone": 5.0
+  },
+  "main": {
+    "tones": [64, 256],
+    "n_seeds": 3,
+    "info": ["true", "calibrated"]
+  },
+  "scaling": {
+    "tones": [64, 256, 1024],
+    "n_seeds": 2,
+    "list_scan_max_tones": 256
+  },
+  "budget_stress": {
+    "tones": 1024,
+    "rhos": [0.01, 1, 40],
+    "n_seeds": 3
+  },
+  "calibration_stress": {
+    "tones": 256,
+    "pilots": [4, 20],
+    "n_seeds": 3
+  },
+  "ties_stress": {
+    "tones": [64],
+    "g_value": 10.0
+  },
+  "example": {
+    "tones": 64,
+    "seed": 1000
+  }
+}

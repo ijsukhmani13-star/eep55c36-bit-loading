@@ -29,3 +29,6 @@ Thumbs.db
 .env
 *.key
 papers/
+
+# Smoke-run outputs are regenerated in seconds; only final results are committed
+results/smoke/
