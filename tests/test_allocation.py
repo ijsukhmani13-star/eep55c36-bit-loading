@@ -12,8 +12,9 @@ import pytest
 
 from src.baseline import allocate_scan
 from src.metrics import allocation_energy
+from src.modified import allocate_heap, allocate_list_scan
 
-METHODS = [allocate_scan]
+METHODS = [allocate_scan, allocate_heap, allocate_list_scan]
 METHOD_IDS = [m.__name__ for m in METHODS]
 
 

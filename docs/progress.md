@@ -37,3 +37,20 @@ Next steps: data generator, baseline, checks.
   the failing test caught it, and I corrected the *expectation*, after re-deriving it by hand.
 
 Baseline is tagged `baseline-verified` before any change is introduced.
+
+## 3. Modification: priority-queue selection
+
+- `src/modified.py` changes **only the selection step**: a `heapq` min-heap of
+  `(cost, tone_index)` replaces the `argmin` scan. Tuple ordering keeps the
+  first-index tie rule. Capped tones are popped; others are re-inserted with cost x2.
+- Setup (`heap_setup`, O(N) heapify) and allocation (`heap_allocate`, O(B log N)) are
+  separate functions so their costs can be timed separately.
+- **Ablation:** `selector="list-scan"` keeps the same Python-list loop and arithmetic but
+  switches the heap off (linear Python scan). This separates the data-structure effect
+  from the NumPy-vs-pure-Python effect.
+- **Prediction:** helps most for large N and many increments; may help least (or hurt) for
+  small N, where heap bookkeeping in Python competes with one vectorised NumPy `argmin`.
+  The NumPy scan's per-increment cost should grow ~linearly in N, the heap's ~log N.
+- Checks: all 13 contract tests now run for all three methods; `tests/test_agreement.py`
+  asserts *exact* equality of bits, energy and remaining budget on 120 synthetic cases
+  (dev seeds), tie-heavy flat channels and saturation. All pass.
