@@ -148,7 +148,8 @@ with each allocation's energy then evaluated on the \emph{true} $g$; and (iii)~a
 secondary metrics are exact allocation agreement, $B$, energy, and true-budget overspend.
 \textbf{Timing.} Each measurement uses \texttt{time.perf\_counter} with the garbage collector off, 1 warm-up run, and the median of 5
 repeats. Heap setup is included in the heap time and also reported separately. All reported results were run on my laptop
-(Windows~11, Python~3.13, NumPy~2.5.3); the exact CPU and versions are recorded in \texttt{results/final/environment.json}.
+(AMD x86-64 CPU, Family~23 Model~160, 8 logical cores; Windows~11 build 26300; Python~3.14.3; NumPy~2.5.3; matplotlib~3.11.2),
+as recorded in \texttt{results/final/environment.json}.
 An earlier run of the same code on a 2-vCPU Linux cloud VM gave identical allocations and smaller speed-ups (about 7$\times$).
 
 \section{Results and interpretation}

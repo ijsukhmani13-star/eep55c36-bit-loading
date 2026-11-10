@@ -1,0 +1,95 @@
+{
+  "python": "3.14.3",
+  "numpy": "2.5.3",
+  "matplotlib": "3.11.2",
+  "os": "Windows-11-10.0.26300-SP0",
+  "cpu": "AMD64 Family 23 Model 160 Stepping 0, AuthenticAMD",
+  "logical_cpus": 8,
+  "git_commit": "d5419a1f26fd7596f2008354ac35dd319cd0b337",
+  "timer": "time.perf_counter, garbage collector disabled while timing",
+  "config": {
+    "name": "final",
+    "description": "Full comparison used for the report. About 2-3 minutes on a 2-core 2.1 GHz Xeon.",
+    "model": {
+      "gap_db": 9.8,
+      "bmax": 15,
+      "taps": 8,
+      "noise_var": 0.1,
+      "pilots": 20,
+      "gap": 9.549925860214362
+    },
+    "timing": {
+      "warmup": 1,
+      "repeats": 5
+    },
+    "validation": {
+      "tones": 256,
+      "n_seeds": 20,
+      "rho_candidates": [
+        10,
+        20,
+        40,
+        80,
+        160
+      ],
+      "target_bits_per_tone": 5.0
+    },
+    "main": {
+      "tones": [
+        64,
+        256,
+        1024
+      ],
+      "n_seeds": 30,
+      "info": [
+        "true",
+        "calibrated"
+      ]
+    },
+    "scaling": {
+      "tones": [
+        16,
+        64,
+        256,
+        1024,
+        4096
+      ],
+      "n_seeds": 10,
+      "list_scan_max_tones": 1024
+    },
+    "budget_stress": {
+      "tones": 1024,
+      "rhos": [
+        0.01,
+        0.03,
+        0.1,
+        0.3,
+        1,
+        3,
+        10,
+        40
+      ],
+      "n_seeds": 20
+    },
+    "calibration_stress": {
+      "tones": 256,
+      "pilots": [
+        4,
+        20,
+        100
+      ],
+      "n_seeds": 30
+    },
+    "ties_stress": {
+      "tones": [
+        64,
+        1024
+      ],
+      "g_value": 10.0
+    },
+    "example": {
+      "tones": 64,
+      "seed": 1000
+    }
+  }
+}

@@ -46,7 +46,8 @@ initialisation and acceleration steps are not. All data are **synthetic**, and n
 
 ## Tested environment
 
-- **Submitted results:** Windows 11 laptop, Python 3.13, run from the VS Code PowerShell terminal.
+- **Submitted results:** Windows 11 laptop (build 26300), AMD x86-64 CPU (Family 23 Model 160, 8 logical cores),
+  Python 3.14.3, run from the VS Code PowerShell terminal.
   The exact CPU, OS and versions are recorded in `results/final/environment.json`.
   Terminal screenshots of that run: [`docs/screenshots/`](docs/screenshots).
 - Also tested on Ubuntu 24.04 (x86_64, 2-vCPU cloud VM, Python 3.13.18). Identical allocations, smaller speed-ups (~7×).

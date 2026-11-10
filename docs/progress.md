@@ -91,7 +91,7 @@ Baseline is tagged `baseline-verified` before any change is introduced.
 
 ## 6. Final results re-run on my own laptop
 
-- Re-ran `configs/final.json` on my Windows 11 laptop (Python 3.13) at commit d5419a1, so that the submitted
+- Re-ran `configs/final.json` on my Windows 11 laptop (AMD, 8 logical cores, Python 3.14.3) at commit d5419a1, so that the submitted
   timings come from my machine. Deterministic outputs (rho = 40, bits, agreement, calibration overspend)
   matched the earlier cloud-VM run exactly. Only the timings changed.
 - Laptop speed-ups are larger: 13.3x / 13.7x / 14.0x for N = 64 / 256 / 1024 and 16.7x at 4096 (cloud VM: about 7x / 12x).
