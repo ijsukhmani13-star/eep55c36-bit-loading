@@ -1,0 +1,7 @@
+{
+  "fig1_example.png": "representative example",
+  "fig2_main_comparison.png": "overall performance comparison",
+  "fig3_scaling.png": "complexity / scaling check",
+  "fig4_stress_budget.png": "stress: failure case (tiny budget)",
+  "fig5_stress_calibration.png": "stress: estimated-g model validity"
+}
