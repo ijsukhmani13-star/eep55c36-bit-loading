@@ -79,3 +79,12 @@ Baseline is tagged `baseline-verified` before any change is introduced.
     exceed the budget in every case with 20 pilots (mean +8.9%), +65% with 4 pilots, +1.5%
     with 100. |h_hat|^2 is biased upwards by noise and the greedy rule preferentially loads
     the tones whose g was over-estimated. Both methods are equally affected.
+
+## 5. Documentation and submission
+
+- README answers the brief's checklist (purpose, file map, tested environment, install/run/check commands
+  with expected outputs and times, seed/parameter choices, limitations, citations, assistance declaration).
+- Report (`report/report.tex` -> `report/report.pdf`): 3 pages of main text, then references and an appendix with
+  the supporting figures. Rebuild with `cd report && pdflatex report.tex` (run twice).
+- Interview and demo notes: `docs/interview_notes.md`.
+- Next: clean-clone check, then tag `v1.0-submission`.
