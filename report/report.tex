@@ -225,8 +225,7 @@ implementation details, not only on asymptotics.
 \section{Reproduction}
 \sloppy
 Repository: \url{\repo}, submitted tag \texttt{v1.0-submission} (the full commit hash is given in the submission form).
-The results were produced at commit \texttt{d5419a1}, as recorded in \texttt{results/final/environment.json}. The figures were later
-redrawn from the same CSVs after an axis-range fix in \texttt{src/figures.py}; no numbers changed. Terminal screenshots of the run
+The results were produced at commit \texttt{d67064f} (recorded as \texttt{d5419a1}, its hash before commit messages were edited, in \texttt{environment.json}). Figures were redrawn from the same CSVs after an axis fix; no numbers changed. Terminal screenshots of the run
 are in \texttt{docs/screenshots/}. Commands (from the repository root):
 \texttt{python -m pip install -r requirements.txt}; \texttt{python -m pytest} (348 checks, about 3\,s);
 \texttt{python run\_experiments.py --config configs/smoke.json} (about 10\,s);
@@ -236,7 +235,7 @@ are in \texttt{docs/screenshots/}. Commands (from the repository root):
 \textbf{Contribution and assistance statement.} This is an individual project. The code, tests, experiments and this report were
 developed with substantial help from a generative-AI assistant (Claude, Anthropic), used under the module's AI policy. I chose
 the track, ran all experiments on my own laptop, reviewed the code and results, and can explain every assessed function and
-result. No external code or datasets were used. The paper is cited but not redistributed.
+result. No external code or data were used; the paper is not redistributed.
 
 \begin{thebibliography}{9}\small
 \bibitem{campello} J.~Campello, ``Practical bit loading for DMT,'' in \emph{Proc.\ IEEE ICC}, vol.~2, 1999,
